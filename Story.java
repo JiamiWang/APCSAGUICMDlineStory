@@ -1,17 +1,25 @@
+import java.util.*;
+
+/*
+    So, in this case I don't want to use an interface
+     because in Java, an interface means that it is a 
+     "clean" abstract class. Quite weird and quite 
+     interesting compared to how C# will treat it.
+*/
+
 public abstract class Story {
     // Progress through story
     // Write Story
+
+    public String curScene;
+    public List<String> selections;
+    
+    // Probably shouldn't make a String FUNCTION to 
+    //  override just to get the name? Idk
     public abstract String name();
 
-    public Story() {
-        
-    }
-    
-    public void Start() {
-        
-    }
-
-    public void End() {
-        
-    }
+    // Returns the dialogue per scene based on the id
+    //  of the scene. 
+    // TODO: Change to use int instead maybe?
+    public abstract String getSceneText(String id);
 }

@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.regex.*;
 
 public class Misc {
     public static final String softwareName = "Story Project";
@@ -49,5 +50,17 @@ public class Misc {
         }
 
         System.exit(code); // exit by code
+    }
+
+    // https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html
+    public static String reSub(String pattern, String replacement, String msg) {
+        Pattern p = Pattern.compile(pattern);
+        Matcher m = p.matcher(msg);
+        return m.replaceAll(replacement);
+    }
+
+    // "Sanitizes" a message. Simply removes the color tokens
+    public static String sanitize(String input) {
+        return reSub("&.", "", input);
     }
 }

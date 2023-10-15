@@ -18,8 +18,10 @@ import java.util.Scanner;;
 public class Main {
     static GUI instanceGUI = null; 
     static Terminal instanceTerminal = null;
-    // set to null, avoid undefined completely
-    
+
+    static Story story = null;
+    // set to null, avoid undefined vars completely
+
     public static void StartupInit() {
         System.out.println(Misc.welcomeASCII);
         String welcomeText = Misc.softwareName + " by " + Misc.creator;

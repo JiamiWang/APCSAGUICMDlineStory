@@ -1,2 +1,3 @@
-public class MyStory {
+public class MyStory extends Story {
+    
 }
