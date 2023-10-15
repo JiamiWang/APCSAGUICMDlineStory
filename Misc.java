@@ -36,6 +36,7 @@ public class Misc {
        "___/                " +
        " \r\n";
 
+    // Non-immediate program exit
     public static void PressAnyKey(int code) {
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
         System.out.print("Press enter key to exit...");

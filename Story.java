@@ -1,5 +1,6 @@
 public class Story {
     // Progress through story
+    // Write Story
     public Story() {
         
     }
