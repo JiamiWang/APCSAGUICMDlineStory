@@ -1,6 +1,8 @@
-public class Story {
+public abstract class Story {
     // Progress through story
     // Write Story
+    public abstract String name();
+
     public Story() {
         
     }

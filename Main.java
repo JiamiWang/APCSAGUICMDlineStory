@@ -61,7 +61,8 @@ public class Main {
         StartupInit();
         InitByUserInput();
 
-        System.out.println("\nProgram finished Initializing.");          System.out.println("Proceeding to story...");
+        System.out.println("\nProgram finished Initializing.");
+        System.out.println("Proceeding to story...");
 
         instanceTerminal.ReadLoop();
     }
