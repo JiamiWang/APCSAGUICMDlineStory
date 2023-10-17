@@ -56,6 +56,8 @@ public class Main {
         if (yesToGUI) instanceGUI = new GUI();
         instanceTerminal.setStatus(yesToCmd); // terminalGUI is already instantiated at this case
         instanceTerminal.useColors = yesToColors;
+        
+        story = new MyStory();
     }
     
     // Program entry point

@@ -11,3 +11,5 @@ Screw you = new Screw();
 ## Developer Notices
 TODO: Explain to other people about how forking and creating their own story works with this project
 TODO: Explain about upcoming leaderboard feature
+## My workflow
+this entire project is cloned to my Chromebook (BlueJ, and command-line Git), Laptop (IntelliJ and GitHub integration included), and Replit (da built-in Git features, and sometimes needed to rebase because code is screwed up... unfortunately). Very very good work flow! 👍

@@ -2,7 +2,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.event.*;
-
+import java.net.*;
 
 public class GUI extends JFrame implements ActionListener {
     // The comments are just the yapping of the developer
@@ -17,6 +17,7 @@ public class GUI extends JFrame implements ActionListener {
     // -Menu
     private JMenu menu; private JMenuBar mb;
     private JMenuItem itemAbout;
+    private JButton button1, button2;
     
     
     public boolean getStatus() {
@@ -29,6 +30,17 @@ public class GUI extends JFrame implements ActionListener {
     
     public GUI() {
         constructGUI();
+    }
+    
+    private void setJLablelImage(JLabel label, String url) {
+        try {
+            URL PicURL = new URL(url);
+            ImageIcon img = new ImageIcon(PicURL);
+            label.setIcon(img);
+        } catch (Exception e) {
+            System.out.println("!! Cannot fetch image.");
+            System.out.println("!! " + e.getMessage());
+        }
     }
     
     private void constructGUI() {
@@ -57,21 +69,16 @@ public class GUI extends JFrame implements ActionListener {
         JLabel title = new JLabel(Misc.softwareName);
 
         mainPanel.add(title);
-
-        // create buttons
-
-        JButton button1 = new JButton("Send");
-        button1.setToolTipText("Click to send a message");
-
-        mainPanel.add(button1);
-
+        
         // Create content
 
         JPanel contentPanel = new JPanel();
         Border border = BorderFactory.createTitledBorder("Current Scene");
         contentPanel.setBorder(border);
 
-        JTextArea content = new JTextArea(15, 20);
+        JLabel thumb = new JLabel();
+        
+        JTextArea content = new JTextArea(15, 25);
         content.setEditable(false);
         content.setText("Buncha text with a lot of a a a a a a a a a a a a a a a a a a a a a a a a a a a a lol");
         content.setLineWrap(true);
@@ -84,7 +91,21 @@ public class GUI extends JFrame implements ActionListener {
 
         contentPanel.add(scrollPane);
         mainPanel.add(contentPanel);
+        
+        // create buttons
 
+        button1 = new JButton("Option 1");
+        button1.setToolTipText("Select option 1");
+        
+        button2 = new JButton("Option 2");
+        button2.setToolTipText("Select option 2");
+
+        mainPanel.add(button1);
+        button1.addActionListener(this);
+        mainPanel.add(button2);
+        button2.addActionListener(this);
+
+        
         // create top bar menu
         mb = new JMenuBar();
         menu = new JMenu("About");
@@ -107,6 +128,10 @@ public class GUI extends JFrame implements ActionListener {
         if (e.getSource() == itemAbout) {
             JOptionPane.showMessageDialog(null, "This is a GUI window for " + Misc.softwareName + "."+
                 "\nProgram " + Misc.softwareName + " by \n" + Misc.creator);
+        } else if (e.getSource() == button1) {
+            JOptionPane.showMessageDialog(null, "Option 1 pressed.");
+        } else if (e.getSource() == button2) {
+            JOptionPane.showMessageDialog(null, "Option 2 pressed.");
         }
     }     
 }
