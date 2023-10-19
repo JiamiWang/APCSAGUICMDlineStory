@@ -63,12 +63,12 @@ public class Terminal {
     }
 
     private void cmdPrint(String input) {
-        print("&g[/] &w" + input + "^r");
+        print("&g[/] &w" + input);
     }
 
     // TODO: Add coloring strings, and truncate tokens when coloring is disabled
     public void print(String str) {
-        if (useColors) System.out.println(colorize(str));
+        if (useColors) System.out.println(colorize(str + "^r"));
         else System.out.println(Misc.sanitize(str));
     }
 
