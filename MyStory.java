@@ -1,9 +1,16 @@
 public class MyStory extends Story {
+    
+    
+    
     public String name() {
         return "MyStory";
     }
     
-    public String getSceneText() {
+    protected boolean ValidateOption(String option) {
+        return false;
+    }
+    
+    public String getSceneText(String id) {
         return "";
     }
 }

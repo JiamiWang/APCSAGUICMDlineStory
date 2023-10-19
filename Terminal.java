@@ -21,10 +21,10 @@ public class Terminal {
             return;
         }
 
-        print("Info: This is the terminal interface.");
-        print("Info: For available commands, type /help");
+        print("&bInfo: &wThis is the terminal interface.");
+        print("&bInfo: &wFor available commands, type /help");
         if (Main.instanceGUI != null && Main.instanceGUI.getStatus()) {
-            print("Notice: GUI is enabled. Interfacing with either this terminal, or the graphic window will change your progression in the story. Closing either this terminal, or the GUI will terminate the program.");
+            print("&rNotice: &wGUI is enabled. Interfacing with either this terminal, or the graphic window will change your progression in the story. Closing either this terminal, or the GUI will terminate the program.");
         }
         
         while (true) {
@@ -32,7 +32,9 @@ public class Terminal {
             if (input.startsWith("/")) {
                 ExecCommand(input);
             } else {
+                boolean validatedOption = Main.story.ValidateOption(input);
                 
+                if (!validatedOption) print("&r!! Not a valid option in the story line.");
             }
         }
     }
@@ -41,32 +43,33 @@ public class Terminal {
     public void ExecCommand(String input) {
         String[] args = input.split("\\s+"); 
         if (Inputs.caselessEq(args[0], "/help")) {
-            cmdPrint("/help: Displays this menu.");
-            cmdPrint("/status: Displays current story progress.");
-            cmdPrint("/about: About this program.");
-            cmdPrint("/exit: Quits the program.");
+            cmdPrint("&b/help&y: Displays this menu.");
+            cmdPrint("&b/status&y: Displays current story progress.");
+            cmdPrint("&b/about&y: About this program.");
+            cmdPrint("&b/exit&y: Quits the program.");
         }
         else if (Inputs.caselessEq(args[0], "/exit")) {
-            cmdPrint("Exiting...");
+            cmdPrint("&rExiting...");
             System.exit(0);
         }
         else if (Inputs.caselessEq(args[0], "/about")) {
-            cmdPrint("About this program:");
-            cmdPrint(" Program: " + Misc.softwareName);
-            cmdPrint(" Author: " + Misc.creator);
+            cmdPrint("&bAbout this program:");
+            cmdPrint("&b Program: " + Misc.softwareName);
+            cmdPrint("&b Author: " + Misc.creator);
         }
         else {
-            cmdPrint("Unknown command. Type /help for available commands.");
+            cmdPrint("&rUnknown command. &wType /help for available commands.");
         }
     }
 
     private void cmdPrint(String input) {
-        System.out.println("[/] " + input);
+        print("&g[/] &w" + input + "^r");
     }
 
     // TODO: Add coloring strings, and truncate tokens when coloring is disabled
     public void print(String str) {
-        System.out.println(str);
+        if (useColors) System.out.println(colorize(str));
+        else System.out.println(Misc.sanitize(str));
     }
 
     // Static, public tools to use outside of instance

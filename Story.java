@@ -14,6 +14,17 @@ public abstract class Story {
     public String curScene;
     public List<String> selections;
     
+    static Terminal cmd;
+    static GUI gui;
+    
+    public Story() {
+        selections = new ArrayList<String>();
+    }
+    
+    private void UpdateInterfaces() {
+        
+    }
+    
     // Probably shouldn't make a String FUNCTION to 
     //  override just to get the name? Idk
     public abstract String name();
@@ -22,4 +33,8 @@ public abstract class Story {
     //  of the scene. 
     // TODO: Change to use int instead maybe?
     public abstract String getSceneText(String id);
+    
+    protected abstract boolean ValidateOption(String option);
+    
+    
 }

@@ -43,6 +43,10 @@ public class GUI extends JFrame implements ActionListener {
         }
     }
     
+    public void UpdateStoryContent() {
+        
+    }
+    
     private void constructGUI() {
         // Initialize Frame
         this.setTitle("Story Project");
