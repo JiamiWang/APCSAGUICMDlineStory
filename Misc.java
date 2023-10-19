@@ -61,6 +61,6 @@ public class Misc {
 
     // "Sanitizes" a message. Simply removes the color and format tokens
     public static String sanitize(String input) {
-        return reSub("^.", "", reSub("&.", "", input));
+        return reSub("\\^.", "", reSub("&.", "", input));
     }
 }
