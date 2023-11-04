@@ -1,3 +1,5 @@
+package net.spicycombo.jiamingwang.storyproj;
+
 /*
    _____ __                              
   / ___// /_____  _______  __            
@@ -16,12 +18,29 @@
 import java.util.Scanner;;
 
 public class Main {
-    static GUI instanceGUI = null; 
-    static Terminal instanceTerminal = null;
+    public static GUI instanceGUI = null; 
+    public static Terminal instanceTerminal = null;
 
-    static Story story = null;
+    public static Story story = null;
     // set to null, avoid undefined vars completely
-
+    public static MusicPlayer bMusic = null;
+    // same here lol, null by default!
+    
+    /* Other things to initialize */
+    
+    // https://stackoverflow.com/questions/4056682/how-can-my-java-program-store-files-inside-of-its-jar-file
+    public static void InitBackgroundMusic() {
+        try {
+            if (Misc.runAsJarFile()) bMusic = new MusicPlayer("background.wav", true);
+            else bMusic = new MusicPlayer("./background.wav");
+        } catch (Exception e) {
+            System.out.println("Oh no! An error occurred while attempting to create a MusicPlayer.");
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    /* END OF Other things to initialize*/
+    
     public static void StartupInit() {
         System.out.println(Misc.welcomeASCII);
         String welcomeText = Misc.softwareName + " by " + Misc.creator;
@@ -63,6 +82,7 @@ public class Main {
     // Program entry point
     public static void main(String[] args) {
         StartupInit();
+        InitBackgroundMusic();
         InitByUserInput();
 
         System.out.println("\nProgram finished Initializing.");

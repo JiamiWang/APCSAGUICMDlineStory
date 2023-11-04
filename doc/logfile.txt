@@ -20,12 +20,24 @@ Class documentation
 UTF-8
 -charset
 UTF-8
-/home/admin/APCSAGUICMDlineStory/Main.java
+/home/admin/APCSAGUICMDlineStory/MusicPlayer.java
 <---- end of javadoc command ---->
-Loading source file /home/admin/APCSAGUICMDlineStory/Main.java...
+Loading source file /home/admin/APCSAGUICMDlineStory/MusicPlayer.java...
 Constructing Javadoc information...
-Standard Doclet version 17.0.4.1+1
-Building tree for all the packages and classes...
-Generating /home/admin/APCSAGUICMDlineStory/doc/Main.html...
-Generating /home/admin/APCSAGUICMDlineStory/doc/package-summary.html...
-Generating /home/admin/APCSAGUICMDlineStory/doc/index.html...
+/home/admin/APCSAGUICMDlineStory/MusicPlayer.java:1: error: package sun.audio does not exist
+import sun.audio.AudioPlayer;
+                ^
+/home/admin/APCSAGUICMDlineStory/MusicPlayer.java:2: error: package sun.audio does not exist
+import sun.audio.AudioStream;
+                ^
+/home/admin/APCSAGUICMDlineStory/MusicPlayer.java:18: error: cannot find symbol
+    private AudioStream as;
+            ^
+  symbol:   class AudioStream
+  location: class MusicPlayer
+/home/admin/APCSAGUICMDlineStory/MusicPlayer.java:19: error: cannot find symbol
+    private AudioPlayer p;
+            ^
+  symbol:   class AudioPlayer
+  location: class MusicPlayer
+4 errors

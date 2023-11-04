@@ -1,3 +1,5 @@
+package net.spicycombo.jiamingwang.storyproj;
+
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -17,8 +19,9 @@ public class GUI extends JFrame implements ActionListener {
     // -Menu
     private JMenu menu; private JMenuBar mb;
     private JMenuItem itemAbout;
-    private JButton button1, button2;
-    
+    // private JButton button1, button2;
+    private JComboBox optionList;
+    private JButton confirmButton;
     
     public boolean getStatus() {
         return enabled;
@@ -84,11 +87,11 @@ public class GUI extends JFrame implements ActionListener {
         
         JTextArea content = new JTextArea(15, 25);
         content.setEditable(false);
-        content.setText("Buncha text with a lot of a a a a a a a a a a a a a a a a a a a a a a a a a a a a lol");
+        content.setText("Scene text");
         content.setLineWrap(true);
         content.setWrapStyleWord(true);
         int numOfLines = content.getLineCount();
-        content.append(", also you have " + numOfLines + " in this thingy thing thing");
+        content.append(" - currently there is " + numOfLines + " line in this JTextArea");
 
         JScrollPane scrollPane = new JScrollPane(content, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -96,18 +99,24 @@ public class GUI extends JFrame implements ActionListener {
         contentPanel.add(scrollPane);
         mainPanel.add(contentPanel);
         
+        // Option selection
+        optionList = new JComboBox<Scene>();
+        confirmButton = new JButton();
+        
+        
+        
         // create buttons
 
-        button1 = new JButton("Option 1");
-        button1.setToolTipText("Select option 1");
+        // button1 = new JButton("Option 1");
+        // button1.setToolTipText("Select option 1");
         
-        button2 = new JButton("Option 2");
-        button2.setToolTipText("Select option 2");
+        // button2 = new JButton("Option 2");
+        // button2.setToolTipText("Select option 2");
 
-        mainPanel.add(button1);
-        button1.addActionListener(this);
-        mainPanel.add(button2);
-        button2.addActionListener(this);
+        // mainPanel.add(button1);
+        // button1.addActionListener(this);
+        // mainPanel.add(button2);
+        // button2.addActionListener(this);
 
         
         // create top bar menu
@@ -132,10 +141,8 @@ public class GUI extends JFrame implements ActionListener {
         if (e.getSource() == itemAbout) {
             JOptionPane.showMessageDialog(null, "This is a GUI window for " + Misc.softwareName + "."+
                 "\nProgram " + Misc.softwareName + " by \n" + Misc.creator);
-        } else if (e.getSource() == button1) {
-            JOptionPane.showMessageDialog(null, "Option 1 pressed.");
-        } else if (e.getSource() == button2) {
-            JOptionPane.showMessageDialog(null, "Option 2 pressed.");
+        } else if (e.getSource() == confirmButton) {
+            // Implement handling for confirmation
         }
     }     
 }

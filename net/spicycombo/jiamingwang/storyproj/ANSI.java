@@ -1,3 +1,5 @@
+package net.spicycombo.jiamingwang.storyproj;
+
 public class ANSI {
     // Contains final (read-only in Java, or just the const in C#? Not sure if 'final' keyword is compile time readonly) ANSI color codes, also just so I don't need to type out more junk, perhaps.
 

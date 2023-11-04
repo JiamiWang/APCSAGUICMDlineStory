@@ -1,3 +1,5 @@
+package net.spicycombo.jiamingwang.storyproj;
+
 import java.util.Scanner;;
 
 public class Inputs {

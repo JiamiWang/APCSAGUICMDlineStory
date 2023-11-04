@@ -1,3 +1,5 @@
+package net.spicycombo.jiamingwang.storyproj;
+
 public class Terminal {
     private boolean enabled = true;
     public boolean useColors = false;
