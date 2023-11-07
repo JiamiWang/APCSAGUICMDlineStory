@@ -15,35 +15,56 @@ import javax.sound.sampled.*;
 public class MusicPlayer
 {
     private Clip clip;
-    
+
+    private LineListener listener;
+
     private AudioInputStream stream;
 
     /**
      * Initialize the music player
      * @param path The path of where the .wav file is located at
      */
-    
-    public MusicPlayer(String path) throws Exception {
-        this(path, false);
+
+
+    public MusicPlayer(String path, boolean jarFile, LineListener listener) throws Exception
+    {
+        this.listener = listener;
+
+        ChangeTrack(path, jarFile, true);
     }
     
-    public MusicPlayer(String path, boolean jarFile) throws Exception
-    {
+    public boolean start() {
+        return start(false);
+    }
+
+    public void ChangeTrack(String path, boolean jarFile, boolean first) throws Exception {
         clip = AudioSystem.getClip();
         File file = new File(path);
-        if (!jarFile) stream = AudioSystem.getAudioInputStream(file);
+        if (!jarFile) stream = AudioSystem.getAudioInputStream(file);
         else {
             // https://stackoverflow.com/questions/4056682/how-can-my-java-program-store-files-inside-of-its-jar-file
             InputStream is = this.getClass().getClassLoader().getResourceAsStream(path);
             stream = AudioSystem.getAudioInputStream(is);
         }
+
         clip.open(stream);
+        clip.addLineListener(listener);
     }
-    
-    public boolean start() {
-        return start(true);
+
+    public boolean isPlaying() {
+        if (clip != null) return clip.isRunning();
+        else return false;
     }
-    
+
+    public boolean toggle() {
+        if (clip != null) {
+            if (isPlaying()) clip.stop();
+            else clip.start();
+            return true;
+        }
+        else return false;
+    }
+
     public boolean start(boolean loop) {
         if (clip != null && !clip.isRunning()) {
             if (loop) clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -74,5 +95,19 @@ public class MusicPlayer
             return true;
         }
         else return false;
+    }
+
+    public static void CycleMusic(MusicPlayer mp, String path) {
+        try {
+            if (!Misc.runAsJarFile())
+                mp.ChangeTrack(Misc.getRandomFile(new File(path)).getPath(), false, false);
+            else {
+                mp.start(); // lazy to implement something unique for jar files
+            }
+        }
+        catch (Exception e) {
+            if (Main.instanceTerminal != null) { Main.instanceTerminal.print("&rError! &w" + e.getMessage() + "^r"); }
+            else { System.out.println("ERROR: " + e.getMessage()); }
+        }
     }
 }

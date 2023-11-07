@@ -5,7 +5,16 @@ public class Terminal {
     public boolean useColors = false;
     
     public void DisplayScene(Scene scene) {
-        
+        if (scene.getSceneId().startsWith("END")) {
+            print("&yYou reached the end of the game! &wScenario " + scene.getSceneId());
+            print("&w" + scene.getScene());
+            print("&gThank you for playing! :D");
+        }
+        else {
+            print("&bNow at Scene &y" + scene.getSceneId());
+            print("&g" + scene.getScene());
+            print("&bYour options are (type the text EXACTLY as before the vertical bar):");
+        }
     }
     
     public boolean getStatus() {
@@ -50,18 +59,38 @@ public class Terminal {
         String[] args = input.split("\\s+"); 
         if (Inputs.caselessEq(args[0], "/help")) {
             cmdPrint("&b/help&y: Displays this menu.");
-            cmdPrint("&b/status&y: Displays current story progress.");
+            cmdPrint("&b/music&y: Toggle on or off the background music.");
+            cmdPrint("&b/status&y: Displays current program status.");
             cmdPrint("&b/about&y: About this program.");
+            cmdPrint("&b/print [print]&y: Print some text!");
             cmdPrint("&b/exit&y: Quits the program.");
         }
         else if (Inputs.caselessEq(args[0], "/exit")) {
             cmdPrint("&rExiting...");
             System.exit(0);
+        } else if (Inputs.caselessEq(args[0], "/music")) {
+            if (Main.bMusic != null) Main.bMusic.toggle();
+
+            cmdPrint("The music is now " +  (Main.bMusic.isPlaying() ? "&gon^r" : "&roff^r") + ".");
+            if (Main.bMusic.isPlaying()) cmdPrint("I'd hope for you to enjoy the music!");
+            else {
+                cmdPrint("Thank you for listening! Tracks are made by Ozzed!");
+                cmdPrint("Visit Ozzed at https://www.ozzed.net");
+            }
+        }
+        else if (Inputs.caselessEq(args[0], "/status")) {
+            cmdPrint("You are currently at scene with ID " + Main.story.curScene.getSceneId());
+            cmdPrint("Currently, the music player is " + (Main.bMusic.isPlaying() ? "&gon" : "&roff") + ".");
         }
         else if (Inputs.caselessEq(args[0], "/about")) {
             cmdPrint("&bAbout this program:");
             cmdPrint("&b Program: " + Misc.softwareName);
             cmdPrint("&b Author: " + Misc.creator);
+            cmdPrint("&b Credits:");
+            for (String line : Misc.creditLines) {
+                cmdPrint("&y  " + line);
+            }
+            cmdPrint("&b This project is licensed under MIT.");
         }
         else {
             cmdPrint("&rUnknown command. &wType /help for available commands.");

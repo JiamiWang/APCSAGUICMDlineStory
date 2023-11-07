@@ -20,7 +20,7 @@ public class Scene
         return scene;
     }
     
-    private String getSceneId() {
+    public String getSceneId() {
         return sceneId;
     }
     
@@ -33,8 +33,8 @@ public class Scene
         this.options = new HashMap<String, String>();
         
         for (String option : options) {
-            String[] parts = option.split("|"); 
-            // never will I use the vertical bar..
+            String[] parts = option.split("\\|");
+            // never will I use the vertical bar...
             String key = parts[0];
             String value = parts[1];
             this.options.put(key, value);

@@ -1,6 +1,9 @@
 package net.spicycombo.jiamingwang.storyproj;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.regex.*;
 import java.net.URL;
 
@@ -13,6 +16,14 @@ import java.net.URL;
 public class Misc {
     public static final String softwareName = "Story Project";
     public static final String creator = "Jiaming Wang, Period 2, APCSA Course";
+
+    public static final String[] creditLines = new String[] {
+            "Music by Ozzed, used for free with license",
+            "Ozzed Website: https://www.ozzed.net"
+    };
+
+    public static final String imagesPath = "./images/";
+    public static final String musicPath = "./music/";
 
     public static final String welcomeASCII = "\r\n" +
        "   _____ __         " +
@@ -90,7 +101,23 @@ public class Misc {
      */
     public static boolean runAsJarFile() {
         URL resourceUrl = Class.class.getResource("MyClass.class");
-        String protocol = resourceUrl.getProtocol();
+        String protocol;
+        try { protocol = resourceUrl.getProtocol(); } catch(Exception e) { return false; }
         return "jar".equals(protocol) || "rsrc".equals(protocol);
+    }
+
+    public static int randomNum(int start, int end) {
+        return (int) (Math.random() * (end - start + 1)) + start;
+    }
+
+    public static File getRandomFile(final File folder) {
+        File[] folderContent = folder.listFiles();
+        List<File> entries = new ArrayList<File>();
+        for (final File fileEntry : folderContent) {
+            if (!fileEntry.isDirectory()) continue;
+            entries.add(fileEntry);
+        }
+
+        return entries.get(randomNum(0, entries.size() - 1));
     }
 }

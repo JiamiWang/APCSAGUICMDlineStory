@@ -15,7 +15,14 @@ package net.spicycombo.jiamingwang.storyproj;
     Story Project by Jiaming Wang, Period 2
 */
 
-import java.util.Scanner;;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
+import java.io.File;
+import java.net.URL;
+import java.security.CodeSource;
+import java.util.Scanner;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;;
 
 public class Main {
     public static GUI instanceGUI = null; 
@@ -25,14 +32,24 @@ public class Main {
     // set to null, avoid undefined vars completely
     public static MusicPlayer bMusic = null;
     // same here lol, null by default!
-    
+
+    public static LineListener trackListener;
+
+
     /* Other things to initialize */
     
     // https://stackoverflow.com/questions/4056682/how-can-my-java-program-store-files-inside-of-its-jar-file
     public static void InitBackgroundMusic() {
+        trackListener = event -> {
+            if (event.getType() != LineEvent.Type.STOP) {
+                MusicPlayer.CycleMusic(bMusic, Misc.musicPath);
+            }
+        };
+
+
         try {
-            if (Misc.runAsJarFile()) bMusic = new MusicPlayer("background.wav", true);
-            else bMusic = new MusicPlayer("./background.wav");
+            if (Misc.runAsJarFile()) bMusic = new MusicPlayer("background.wav", true, trackListener);
+            else bMusic = new MusicPlayer(Misc.musicPath + "background.wav", false, trackListener);
         } catch (Exception e) {
             System.out.println("Oh no! An error occurred while attempting to create a MusicPlayer.");
             System.out.println(e.getMessage());

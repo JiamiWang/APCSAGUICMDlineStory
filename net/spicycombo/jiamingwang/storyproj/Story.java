@@ -39,7 +39,7 @@ public abstract class Story {
     }
     
     // Probably shouldn't make a String FUNCTION to 
-    //  override just to get the name? Idk
+    //  override just to get the name? idk
     protected abstract String name();
 
     // Returns the dialogue per scene based on the id

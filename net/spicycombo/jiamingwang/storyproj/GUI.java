@@ -5,6 +5,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.event.*;
 import java.net.*;
+import java.util.function.BiConsumer;
 
 public class GUI extends JFrame implements ActionListener {
     // The comments are just the yapping of the developer
@@ -15,16 +16,52 @@ public class GUI extends JFrame implements ActionListener {
     // Components of GUI
     // -Main Components
 
-    
+    // These instance variables are not designed to be usable by public.
+    // Why would they anyways?!?
+
+    // Icons
+    private final String musicOffIconPath = Misc.imagesPath + "musicOff.jpg";
+    private final String musicOnIconPath  = Misc.imagesPath + "musicOn.jpg";
+    private ImageIcon musicOnIcon; private ImageIcon musicOffIcon;
+
     // -Menu
     private JMenu menu; private JMenuBar mb;
     private JMenuItem itemAbout;
+
+    private JButton musicButton;
     // private JButton button1, button2;
     private JComboBox optionList;
     private JButton confirmButton;
+    private JTextArea content;
+
+    private JLabel sceneNum;
+
+    // But, the important fields here
+
+    public static final String sceneTextTemplate = "Scene ";
     
     public void DisplayScene(Scene scene) {
-        
+        fixSceneId();
+
+        content.setText(scene.getScene());
+
+        optionList.removeAllItems();
+
+        if (scene.getSceneId().startsWith("END")) {
+            optionList.addItem("THANK YOU FOR PLAYING! :D");
+            confirmButton.setEnabled(false);
+            // i didn't test if this actually disables it lol
+        }
+        else {
+            BiConsumer consumer = new BiConsumer<String, String>() {
+                @Override
+                public void accept(String thisSceneId, String thisSceneContext) {
+                    optionList.addItem(thisSceneId + ": " + thisSceneContext);
+                }
+            };
+
+            scene.getOptions().forEach(consumer);
+        }
     }
     
     public boolean getStatus() {
@@ -34,8 +71,34 @@ public class GUI extends JFrame implements ActionListener {
     public void setStatus(boolean newStat) {
         enabled = newStat;
     }
-    
+
+    // See: https://docs.oracle.com/javase/tutorial/uiswing/components/icon.html
+    protected ImageIcon createImageIcon(String path,
+                                        String description) {
+        java.net.URL imgURL = getClass().getResource(path);
+        if (imgURL != null) {
+            return new ImageIcon(imgURL, description);
+        } else {
+            System.err.println("Couldn't find file: " + path);
+            // lazy to throw and then having to catch da exception
+            return null;
+        }
+    }
+
+    public void fixMusicButton() {
+        if (Main.bMusic.isPlaying()) musicButton.setIcon(musicOnIcon);
+        else musicButton.setIcon(musicOffIcon);
+    }
+
+    public void fixSceneId() {
+        sceneNum.setText(sceneTextTemplate + Main.story.curScene.getSceneId());
+        // wow, so long... normal tho, ig
+    }
+
     public GUI() {
+        musicOnIcon = createImageIcon(musicOnIconPath, "Music is On");
+        musicOffIcon = createImageIcon(musicOffIconPath, "Music is Off");
+
         constructGUI();
     }
     
@@ -48,10 +111,6 @@ public class GUI extends JFrame implements ActionListener {
             System.out.println("!! Cannot fetch image.");
             System.out.println("!! " + e.getMessage());
         }
-    }
-    
-    public void UpdateStoryContent() {
-        
     }
     
     private void constructGUI() {
@@ -89,9 +148,9 @@ public class GUI extends JFrame implements ActionListener {
 
         JLabel thumb = new JLabel();
         
-        JTextArea content = new JTextArea(15, 25);
+        content = new JTextArea(15, 25);
         content.setEditable(false);
-        content.setText("Scene text");
+        content.setText("Scene text will appear here!");
         content.setLineWrap(true);
         content.setWrapStyleWord(true);
         int numOfLines = content.getLineCount();
@@ -102,27 +161,25 @@ public class GUI extends JFrame implements ActionListener {
 
         contentPanel.add(scrollPane);
         mainPanel.add(contentPanel);
-        
+
+        // Musix!!
+        musicButton = new JButton("Toggle Music");
+        musicButton.setIcon(musicOffIcon);
+        musicButton.addActionListener(this);
+
+        mainPanel.add(musicButton);
+
+        // Label for scene ID
+
+        sceneNum = new JLabel("Loading...");
+        mainPanel.add(sceneNum);
+
         // Option selection
-        optionList = new JComboBox<Scene>();
+        optionList = new JComboBox<String>();
         confirmButton = new JButton();
-        
-        
-        
-        // create buttons
 
-        // button1 = new JButton("Option 1");
-        // button1.setToolTipText("Select option 1");
-        
-        // button2 = new JButton("Option 2");
-        // button2.setToolTipText("Select option 2");
+        confirmButton.addActionListener(this);
 
-        // mainPanel.add(button1);
-        // button1.addActionListener(this);
-        // mainPanel.add(button2);
-        // button2.addActionListener(this);
-
-        
         // create top bar menu
         mb = new JMenuBar();
         menu = new JMenu("About");
@@ -143,10 +200,36 @@ public class GUI extends JFrame implements ActionListener {
 
     public void actionPerformed (ActionEvent e) {    
         if (e.getSource() == itemAbout) {
-            JOptionPane.showMessageDialog(null, "This is a GUI window for " + Misc.softwareName + "."+
-                "\nProgram " + Misc.softwareName + " by \n" + Misc.creator);
+            StringBuilder creditsText = new StringBuilder(new String());
+            for (String line : Misc.creditLines) {
+                creditsText.append(line).append('\n');
+            }
+            // In C#, StringBuilder is usually necessary
+            // Seems like the most formal in this case here
+
+            JOptionPane.showMessageDialog(null,
+                    "This is a GUI window for " + Misc.softwareName + "." +
+                            "\nProgram " + Misc.softwareName + " by " + Misc.creator +
+                            "\nCredits:" +
+                            "\n"+creditsText + // new line because of StringBuilder
+                            "This project is licensed under MIT!");
         } else if (e.getSource() == confirmButton) {
-            // Implement handling for confirmation
+            int index = optionList.getSelectedIndex();
+            String sceneId = (String) Main.story.curScene.getOptions().entrySet().toArray()[index];
+            // It seems like there are several issues with this code.
+            // 1. This is too longer
+            // 2. We are casting it to a String, it doesn't feel comforting though the keys are strings
+            // 3. Java is dumb for not having KeyValuePair<K, V> like C#
+            // 4. I blame Java for everything wrong in my life, my family is haunted, my dog peed
+            // See https://stackoverflow.com/questions/3973512/java-hashmap-how-to-get-a-key-and-value-by-index
+
+            Main.story.ValidateOption(sceneId);
+            // OK!
+        } else if (e.getSource() == musicButton) {
+            if (Main.bMusic != null) {
+               Main.bMusic.toggle();
+               this.fixMusicButton();
+            }
         }
     }     
 }
