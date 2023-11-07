@@ -106,6 +106,9 @@ public class Main {
         System.out.println("\nProgram finished Initializing.");
         System.out.println("Proceeding to story...");
 
+        story.start();
+
+        instanceTerminal.IntroductCmdLine();
         instanceTerminal.ReadLoop();
     }
 }

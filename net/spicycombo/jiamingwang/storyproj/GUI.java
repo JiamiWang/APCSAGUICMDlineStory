@@ -4,6 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.event.*;
+import java.io.File;
 import java.net.*;
 import java.util.function.BiConsumer;
 
@@ -75,14 +76,32 @@ public class GUI extends JFrame implements ActionListener {
     // See: https://docs.oracle.com/javase/tutorial/uiswing/components/icon.html
     protected ImageIcon createImageIcon(String path,
                                         String description) {
-        java.net.URL imgURL = getClass().getResource(path);
-        if (imgURL != null) {
-            return new ImageIcon(imgURL, description);
-        } else {
-            System.err.println("Couldn't find file: " + path);
-            // lazy to throw and then having to catch da exception
+        URL imgURL; File file;
+        try {
+            ImageIcon ico;
+            if (Misc.runAsJarFile()) {
+                imgURL = getClass().getResource(path);
+                ico = new ImageIcon(imgURL, description);
+            }
+            else {
+                file = new File(path);
+                ico = new ImageIcon(file.getPath(), description);
+            }
+
+            // https://stackoverflow.com/questions/6714045/how-to-resize-jlabel-imageicon
+            Image image = ico.getImage(); // transform it
+            Image newImg = image.getScaledInstance(20, 20,  java.awt.Image.SCALE_SMOOTH);
+            // scale it the smooth way
+            ico = new ImageIcon(newImg);  // transform it back
+
+            return ico;
+        } catch (Exception e) {
+            System.err.println("Nawwww, error occurred while creating ImageIcon: " + e.getMessage());
             return null;
         }
+
+        // old me: lazy to throw and then having to catch da exception
+        // new me: nvm
     }
 
     public void fixMusicButton() {
@@ -139,7 +158,19 @@ public class GUI extends JFrame implements ActionListener {
         JLabel title = new JLabel(Misc.softwareName);
 
         mainPanel.add(title);
-        
+
+        // Musix!!
+        musicButton = new JButton("Toggle Music");
+        musicButton.setIcon(musicOffIcon);
+        musicButton.addActionListener(this);
+
+        mainPanel.add(musicButton);
+
+        // Label for scene ID
+
+        sceneNum = new JLabel("Loading...");
+        mainPanel.add(sceneNum);
+
         // Create content
 
         JPanel contentPanel = new JPanel();
@@ -162,23 +193,14 @@ public class GUI extends JFrame implements ActionListener {
         contentPanel.add(scrollPane);
         mainPanel.add(contentPanel);
 
-        // Musix!!
-        musicButton = new JButton("Toggle Music");
-        musicButton.setIcon(musicOffIcon);
-        musicButton.addActionListener(this);
-
-        mainPanel.add(musicButton);
-
-        // Label for scene ID
-
-        sceneNum = new JLabel("Loading...");
-        mainPanel.add(sceneNum);
-
         // Option selection
         optionList = new JComboBox<String>();
         confirmButton = new JButton();
 
         confirmButton.addActionListener(this);
+
+        mainPanel.add(optionList);
+        mainPanel.add(confirmButton);
 
         // create top bar menu
         mb = new JMenuBar();

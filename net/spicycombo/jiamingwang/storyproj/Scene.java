@@ -27,9 +27,13 @@ public class Scene
     public Map<String, String> getOptions() {
         return Collections.unmodifiableMap(options);
     }
-    
-    public Scene(String sceneId, String sceneText, String... options) throws Exception
-    {
+
+    @Override
+    public String toString() {
+        return super.toString() + ": ID " + sceneId + ", Content " + scene + ", options " + options;
+    }
+
+    public Scene(String sceneId, String sceneText, String... options) {
         this.options = new HashMap<String, String>();
         
         for (String option : options) {

@@ -1,5 +1,7 @@
 package net.spicycombo.jiamingwang.storyproj;
 
+import java.util.Map;
+
 public class Terminal {
     private boolean enabled = true;
     public boolean useColors = false;
@@ -14,6 +16,10 @@ public class Terminal {
             print("&bNow at Scene &y" + scene.getSceneId());
             print("&g" + scene.getScene());
             print("&bYour options are (type the text EXACTLY as before the vertical bar):");
+            Map<String, String> options = scene.getOptions();
+            for (String k : options.keySet()) {
+                print("&w" + k + " &b| &w" + options.get(k));
+            }
         }
     }
     
@@ -29,10 +35,11 @@ public class Terminal {
         
     }
 
-    public void ReadLoop() {
+    public void IntroductCmdLine() {
         if (!enabled) {
             System.out.println("Terminal not enabled. Use the Graphical Interface instead.");
             System.out.println("Warn: If this terminal window is closed, the GUI will terminate.");
+            Main.story.UpdateInterfaces();
             return;
         }
 
@@ -41,7 +48,11 @@ public class Terminal {
         if (Main.instanceGUI != null && Main.instanceGUI.getStatus()) {
             print("&rNotice: &wGUI is enabled. Interfacing with either this terminal, or the graphic window will change your progression in the story. Closing either this terminal, or the GUI will terminate the program.");
         }
-        
+
+        Main.story.UpdateInterfaces();
+    }
+
+    public void ReadLoop() {
         while (true) {
             String input = Inputs.s.nextLine();
             if (input.startsWith("/")) {
@@ -121,7 +132,7 @@ public class Terminal {
     // TODO: Replace color tokens with ANSI codes
     public static String colorize(String text) {
         return text
-            .replace("&b", ANSI.BLACK)
+            .replace("&z", ANSI.BLACK)
             .replace("&r", ANSI.RED)
             .replace("&g", ANSI.GREEN)
             .replace("&y", ANSI.YELLOW)
@@ -130,7 +141,7 @@ public class Terminal {
             .replace("&c", ANSI.CYAN)
             .replace("&w", ANSI.WHITE)
 
-            .replace("&B", ANSI.BLACK_BACKGROUND)
+            .replace("&Z", ANSI.BLACK_BACKGROUND)
             .replace("&R", ANSI.RED_BACKGROUND)
             .replace("&G", ANSI.GREEN_BACKGROUND)
             .replace("&Y", ANSI.YELLOW_BACKGROUND)

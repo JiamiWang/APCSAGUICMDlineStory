@@ -20,12 +20,16 @@ public abstract class Story {
     private static GUI gui;
     
     private static boolean initialized;
-    
+    public static boolean started;
+
+    public abstract void start();
+
     public static boolean Init(Terminal t, GUI g) {
         if (initialized) return false;
         cmd = t;
         gui = g;
         initialized = true;
+        started = false;
         return true;
     } 
     
