@@ -13,7 +13,7 @@ public abstract class Story {
     // Progress through story
     // Write Story
 
-    public String curScene;
+    public Scene curScene;
     public List<String> selections;
     
     private static Terminal cmd;
@@ -21,7 +21,7 @@ public abstract class Story {
     
     private static boolean initialized;
     
-    public boolean Init(Terminal t, GUI g) {
+    public static boolean Init(Terminal t, GUI g) {
         if (initialized) return false;
         cmd = t;
         gui = g;
@@ -33,18 +33,19 @@ public abstract class Story {
         selections = new ArrayList<String>();
     }
     
-    private void UpdateInterfaces() {
-        
+    protected void UpdateInterfaces() {
+        if (cmd != null) cmd.DisplayScene(curScene);
+        if (gui != null) gui.DisplayScene(curScene);
     }
     
     // Probably shouldn't make a String FUNCTION to 
     //  override just to get the name? Idk
-    public abstract String name();
+    protected abstract String name();
 
     // Returns the dialogue per scene based on the id
     //  of the scene. 
     // TODO: Change to use int instead maybe?
-    public abstract String getScene(String id);
+    protected abstract Scene getScene(String id);
     
     protected abstract boolean ValidateOption(String option);
     

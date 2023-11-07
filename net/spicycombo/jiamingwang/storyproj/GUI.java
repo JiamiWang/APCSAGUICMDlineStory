@@ -23,6 +23,10 @@ public class GUI extends JFrame implements ActionListener {
     private JComboBox optionList;
     private JButton confirmButton;
     
+    public void DisplayScene(Scene scene) {
+        
+    }
+    
     public boolean getStatus() {
         return enabled;
     }

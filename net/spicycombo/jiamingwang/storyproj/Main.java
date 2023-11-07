@@ -82,6 +82,7 @@ public class Main {
     // Program entry point
     public static void main(String[] args) {
         StartupInit();
+        Story.Init(instanceTerminal, instanceGUI);
         InitBackgroundMusic();
         InitByUserInput();
 

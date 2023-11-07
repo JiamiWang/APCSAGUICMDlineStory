@@ -4,10 +4,11 @@ import java.util.*;
 
 /**
  * Represents a scene in a story
- *
+ * 
  * @author Jiaming Wang
  * @version rev 1, Nov 3 2023
  */
+
 public class Scene
 {
     private HashMap<String, String> options;

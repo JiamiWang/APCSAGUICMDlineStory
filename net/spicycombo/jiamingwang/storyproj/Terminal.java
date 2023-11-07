@@ -4,6 +4,10 @@ public class Terminal {
     private boolean enabled = true;
     public boolean useColors = false;
     
+    public void DisplayScene(Scene scene) {
+        
+    }
+    
     public boolean getStatus() {
         return enabled;
     }

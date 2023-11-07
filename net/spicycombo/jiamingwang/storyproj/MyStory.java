@@ -1,20 +1,26 @@
 package net.spicycombo.jiamingwang.storyproj;
 
 public class MyStory extends Story {    
-    public String name() {
+    protected String name() {
         return "MyStory";
     }
     
     protected boolean ValidateOption(String option) {
-        
+        Scene attempt = getScene(option);
+        if (attempt != null) {
+            curScene = attempt;
+            UpdateInterfaces();
+            return true;
+        }
+        return false;
     }
     
-    public String getScene(String id) {
+    protected Scene getScene(String id) {
         switch (id) {
             case "":
-                
+                return null;
             default:
-                
+                return null;
         }
     }
 }

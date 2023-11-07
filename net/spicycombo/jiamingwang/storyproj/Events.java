@@ -13,5 +13,7 @@ public class Events
     // Not designed to be initialized in the first place.
     private Events() { }
     
-    
+    public static void HandleOptionSelected() {
+        
+    }
 }
