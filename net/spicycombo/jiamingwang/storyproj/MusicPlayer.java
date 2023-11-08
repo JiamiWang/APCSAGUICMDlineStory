@@ -20,6 +20,8 @@ public class MusicPlayer
 
     private AudioInputStream stream;
 
+    private boolean paused;
+    
     /**
      * Initialize the music player
      * @param path The path of where the .wav file is located at
@@ -51,24 +53,27 @@ public class MusicPlayer
         clip.addLineListener(listener);
     }
 
+    public boolean getPaused() { return paused; }
+    
     public boolean isPlaying() {
-        if (clip != null) return clip.isRunning();
-        else return false;
+        return !paused;
     }
 
     public boolean toggle() {
         if (clip != null) {
-            if (isPlaying()) clip.stop();
+            if (clip.isRunning()) clip.stop();
             else clip.start();
-            return true;
+            Main.instanceGUI.fixMusicButton();
         }
-        else return false;
+        
+        paused = !paused;
+        return paused;
     }
 
     public boolean start(boolean loop) {
         if (clip != null && !clip.isRunning()) {
             if (loop) clip.loop(Clip.LOOP_CONTINUOUSLY);
-            else clip.loop(0);
+            else { paused = false; clip.start(); }
             return true;
         } else {
             return false;
@@ -77,6 +82,7 @@ public class MusicPlayer
     
     public boolean stop() {
         if (clip != null && clip.isRunning()) {
+            paused = true;
             clip.stop();
             return true;
         } 

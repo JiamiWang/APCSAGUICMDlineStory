@@ -21,8 +21,8 @@ public class GUI extends JFrame implements ActionListener {
     // Why would they anyways?!?
 
     // Icons
-    private final String musicOffIconPath = Misc.imagesPath + "musicOff.jpg";
-    private final String musicOnIconPath  = Misc.imagesPath + "musicOn.jpg";
+    private static final String musicOffIconPath = Misc.imagesPath + "musicOff.jpg";
+    private static final String musicOnIconPath  = Misc.imagesPath + "musicOn.jpg";
     private ImageIcon musicOnIcon; private ImageIcon musicOffIcon;
 
     // -Menu
@@ -38,17 +38,21 @@ public class GUI extends JFrame implements ActionListener {
     private JLabel sceneNum;
 
     // But, the important fields here
-
+    
+    public void changeJTextAreaContent(String text) {
+        content.setText(text);
+    }
+    
     public static final String sceneTextTemplate = "Scene ";
     
-    public void DisplayScene(Scene scene) {
+    public boolean DisplayScene(Scene scene) {
+        if (!enabled) return false;
+        
         fixSceneId();
-
-        content.setText(scene.getScene());
 
         optionList.removeAllItems();
 
-        if (scene.getSceneId().startsWith("END")) {
+        if (Main.story.isEndScene(scene)) {
             optionList.addItem("THANK YOU FOR PLAYING! :D");
             confirmButton.setEnabled(false);
             // i didn't test if this actually disables it lol
@@ -60,9 +64,13 @@ public class GUI extends JFrame implements ActionListener {
                     optionList.addItem(thisSceneId + ": " + thisSceneContext);
                 }
             };
-
+            
             scene.getOptions().forEach(consumer);
         }
+        
+        content.setText(scene.getScene());
+        
+        return true;
     }
     
     public boolean getStatus() {
@@ -195,7 +203,10 @@ public class GUI extends JFrame implements ActionListener {
 
         // Option selection
         optionList = new JComboBox<String>();
-        confirmButton = new JButton();
+        
+        optionList.addItem("Select an option here");
+        
+        confirmButton = new JButton("Confirm Choice");
 
         confirmButton.addActionListener(this);
 
@@ -237,20 +248,27 @@ public class GUI extends JFrame implements ActionListener {
                             "This project is licensed under MIT!");
         } else if (e.getSource() == confirmButton) {
             int index = optionList.getSelectedIndex();
-            String sceneId = (String) Main.story.curScene.getOptions().entrySet().toArray()[index];
+            int curIndex = 0; String sceneId = "";
+            for ( String key : Main.story.curScene.getOptions().keySet() ) {
+                if (curIndex == index) { sceneId = key; break; } 
+                curIndex++;
+            }
+            
             // It seems like there are several issues with this code.
-            // 1. This is too longer
-            // 2. We are casting it to a String, it doesn't feel comforting though the keys are strings
+            // 1. This is too long
+            // 2. Set can change the indicies after getting as set
             // 3. Java is dumb for not having KeyValuePair<K, V> like C#
             // 4. I blame Java for everything wrong in my life, my family is haunted, my dog peed
-            // See https://stackoverflow.com/questions/3973512/java-hashmap-how-to-get-a-key-and-value-by-index
+            // See https://stackoverflow.com/questions/10462819/get-keys-from-hashmap-in-java
+            // and the below one was somehow more work for me?
+            // https://stackoverflow.com/questions/3973512/java-hashmap-how-to-get-a-key-and-value-by-index
 
             Main.story.ValidateOption(sceneId);
             // OK!
         } else if (e.getSource() == musicButton) {
             if (Main.bMusic != null) {
                Main.bMusic.toggle();
-               this.fixMusicButton();
+               fixMusicButton();
             }
         }
     }     

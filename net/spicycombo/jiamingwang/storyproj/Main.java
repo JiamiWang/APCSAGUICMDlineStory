@@ -41,7 +41,7 @@ public class Main {
     // https://stackoverflow.com/questions/4056682/how-can-my-java-program-store-files-inside-of-its-jar-file
     public static void InitBackgroundMusic() {
         trackListener = event -> {
-            if (event.getType() != LineEvent.Type.STOP) {
+            if (event.getType() == LineEvent.Type.STOP && !bMusic.getPaused()) {
                 MusicPlayer.CycleMusic(bMusic, Misc.musicPath);
             }
         };
@@ -99,9 +99,10 @@ public class Main {
     // Program entry point
     public static void main(String[] args) {
         StartupInit();
-        Story.Init(instanceTerminal, instanceGUI);
         InitBackgroundMusic();
         InitByUserInput();
+        Story.Init(instanceTerminal, instanceGUI);
+
 
         System.out.println("\nProgram finished Initializing.");
         System.out.println("Proceeding to story...");

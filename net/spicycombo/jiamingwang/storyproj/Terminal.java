@@ -6,14 +6,19 @@ public class Terminal {
     private boolean enabled = true;
     public boolean useColors = false;
     
-    public void DisplayScene(Scene scene) {
-        if (scene.getSceneId().startsWith("END")) {
+    public boolean DisplayScene(Scene scene) {
+        if (!enabled) return false;
+        
+        if (Main.story.isEndScene(scene)) {
             print("&yYou reached the end of the game! &wScenario " + scene.getSceneId());
             print("&w" + scene.getScene());
             print("&gThank you for playing! :D");
         }
         else {
-            print("&bNow at Scene &y" + scene.getSceneId());
+            String sceneMsg = "&bNow at Scene &y" + scene.getSceneId();
+            print(paddedLine('*', Misc.sanitize(sceneMsg).length()));
+            print(sceneMsg);
+            print(paddedLine('*', Misc.sanitize(sceneMsg).length()));
             print("&g" + scene.getScene());
             print("&bYour options are (type the text EXACTLY as before the vertical bar):");
             Map<String, String> options = scene.getOptions();
@@ -21,6 +26,8 @@ public class Terminal {
                 print("&w" + k + " &b| &w" + options.get(k));
             }
         }
+        
+        return true;
     }
     
     public boolean getStatus() {
@@ -53,6 +60,15 @@ public class Terminal {
     }
 
     public void ReadLoop() {
+        if (!enabled) while (true) {
+            String input = Inputs.s.nextLine();
+            
+            if (Inputs.caselessEq(input, "amogus")) {
+                System.out.println("AMONG US!");
+            }
+        }
+        
+        else
         while (true) {
             String input = Inputs.s.nextLine();
             if (input.startsWith("/")) {
@@ -60,7 +76,8 @@ public class Terminal {
             } else {
                 boolean validatedOption = Main.story.ValidateOption(input);
                 
-                if (!validatedOption) print("&r!! Not a valid option in the story line.");
+                if (Main.story.getIsEnded()) print("&r!! The story ended, story no longer accepts input.");
+                else if (!validatedOption) print("&r!! Not a valid option in the story line.");
             }
         }
     }
@@ -73,7 +90,7 @@ public class Terminal {
             cmdPrint("&b/music&y: Toggle on or off the background music.");
             cmdPrint("&b/status&y: Displays current program status.");
             cmdPrint("&b/about&y: About this program.");
-            cmdPrint("&b/print [print]&y: Print some text!");
+            //cmdPrint("&b/manipulate [type] [text]&y: Change text in a component.");
             cmdPrint("&b/exit&y: Quits the program.");
         }
         else if (Inputs.caselessEq(args[0], "/exit")) {
@@ -89,6 +106,20 @@ public class Terminal {
                 cmdPrint("Visit Ozzed at https://www.ozzed.net");
             }
         }
+        // Developer only command
+        /*
+        else if (Inputs.caselessEq(args[0], "/manipulate")) {
+            if (3 > args.length) { cmdPrint("&cNot enough arguments!"); return; }
+            
+            if (Inputs.caselessEq(args[1], "jtextarea")) {
+                if (Main.instanceGUI != null) Main.instanceGUI.changeJTextAreaContent(
+                    input.substring(input.indexOf(args[2]))
+                );
+            }
+            else {
+                cmdPrint("&cNot a valid component type!");
+            }
+        }*/   
         else if (Inputs.caselessEq(args[0], "/status")) {
             cmdPrint("You are currently at scene with ID " + Main.story.curScene.getSceneId());
             cmdPrint("Currently, the music player is " + (Main.bMusic.isPlaying() ? "&gon" : "&roff") + ".");

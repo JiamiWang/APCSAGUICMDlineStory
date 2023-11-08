@@ -21,7 +21,7 @@ public abstract class Story {
     
     private static boolean initialized;
     public static boolean started;
-
+        
     public abstract void start();
 
     public static boolean Init(Terminal t, GUI g) {
@@ -38,8 +38,12 @@ public abstract class Story {
     }
     
     protected void UpdateInterfaces() {
-        if (cmd != null) cmd.DisplayScene(curScene);
-        if (gui != null) gui.DisplayScene(curScene);
+        boolean doneCmd = false, doneGUI = false;
+        
+        if (gui != null) doneGUI = gui.DisplayScene(curScene);
+        if (cmd != null) doneCmd = cmd.DisplayScene(curScene);
+        
+        if (!(doneCmd || doneGUI)) { System.out.println("!! no cmd, no gui? whoa"); } 
     }
     
     // Probably shouldn't make a String FUNCTION to 
@@ -53,5 +57,7 @@ public abstract class Story {
     
     protected abstract boolean ValidateOption(String option);
     
+    protected abstract boolean isEndScene(Scene s);
     
+    protected abstract boolean getIsEnded();
 }

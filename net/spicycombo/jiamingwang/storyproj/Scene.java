@@ -20,12 +20,19 @@ public class Scene
         return scene;
     }
     
+    public void setScene(String newScene) {
+        scene = newScene;
+    }
+    
     public String getSceneId() {
         return sceneId;
     }
     
     public Map<String, String> getOptions() {
-        return Collections.unmodifiableMap(options);
+        // return Collections.unmodifiableMap(options);
+        //                    ^^^^^^^^^^^^^^^^^^^^^^^^
+        // well, that caused some problems
+        return options;
     }
 
     @Override

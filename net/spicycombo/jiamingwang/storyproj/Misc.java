@@ -100,7 +100,7 @@ public class Misc {
      * @return true if executing within a jar file, false if not
      */
     public static boolean runAsJarFile() {
-        URL resourceUrl = Class.class.getResource("MyClass.class");
+        URL resourceUrl = Class.class.getResource("Main.class");
         String protocol;
         try { protocol = resourceUrl.getProtocol(); } catch(Exception e) { return false; }
         return "jar".equals(protocol) || "rsrc".equals(protocol);
@@ -110,12 +110,10 @@ public class Misc {
         return (int) (Math.random() * (end - start + 1)) + start;
     }
 
-    public static File getRandomFile(final File folder) {
-        File[] folderContent = folder.listFiles();
+    public static File getRandomFile(File folder) {
         List<File> entries = new ArrayList<File>();
-        for (final File fileEntry : folderContent) {
-            if (!fileEntry.isDirectory()) continue;
-            entries.add(fileEntry);
+        for (File fileEntry : folder.listFiles()) {
+            if (!fileEntry.isDirectory()) entries.add(fileEntry);
         }
 
         return entries.get(randomNum(0, entries.size() - 1));
