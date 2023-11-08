@@ -1,5 +1,5 @@
-compile = "javac -classpath .:target/dependency/* -d . $(find . -type f -name '*.java')"
-run = "java -classpath .:target/dependency/* Main"
+compile = "javac -classpath .:target/dependency/* -d . $(find . -type f -name '*.java') -Xlint:unchecked"
+run = "java -classpath .:target/dependency/* net.spicycombo.jiamingwang.storyproj.Main"
 entrypoint = "Main.java"
 hidden = ["**/*.class"]
 
