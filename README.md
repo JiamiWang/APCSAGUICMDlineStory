@@ -1,4 +1,5 @@
 # APCSA_GUI_CMDline_Story
+aka `net.spicycombo.jiamingwang.storyproj`
 ## Introduction
 This project is an *interesting* project designed by me, Jiaming Wang, for a story project at my high school.
 <br>
@@ -14,7 +15,9 @@ Story story = new MyStory();
 * This project 
 ## Developer Notices
 TODO: Explain to other people about how forking and creating their own story works with this project
+<br>
 TODO: Explain about upcoming leaderboard feature
+<br>
 but yeah.. a lot of TODOs, and might never even touch one of these
 ## Credits
 * Ozzed is the composer of the 8-bit background music in this game. Go support them at https://www.ozzed.net
