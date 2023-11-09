@@ -1,4 +1,4 @@
-package net.spicycombo.jiamingwang.storyproj;
+  package net.spicycombo.jiamingwang.storyproj;
 
 import java.util.*;
 

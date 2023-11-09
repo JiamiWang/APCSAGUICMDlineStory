@@ -109,7 +109,7 @@ public class Terminal {
         // Developer only command
         /*
         else if (Inputs.caselessEq(args[0], "/manipulate")) {
-            if (3 > args.length) { cmdPrint("&cNot enough arguments!"); return; }
+            if (3 > args.length) { cmdPrintn("&cNot enough arguments!"); return; }
             
             if (Inputs.caselessEq(args[1], "jtextarea")) {
                 if (Main.instanceGUI != null) Main.instanceGUI.changeJTextAreaContent(
@@ -122,7 +122,8 @@ public class Terminal {
         }*/   
         else if (Inputs.caselessEq(args[0], "/status")) {
             cmdPrint("You are currently at scene with ID " + Main.story.curScene.getSceneId());
-            cmdPrint("Currently, the music player is " + (Main.bMusic.isPlaying() ? "&gon" : "&roff") + ".");
+            if (Main.bMusic != null) cmdPrint("Currently, the music player is " + (Main.bMusic.isPlaying() ? "&gon" : "&roff") + ".");
+            else cmdPrint("Music player isn't instantiated, can't fetch status");
         }
         else if (Inputs.caselessEq(args[0], "/about")) {
             cmdPrint("&bAbout this program:");

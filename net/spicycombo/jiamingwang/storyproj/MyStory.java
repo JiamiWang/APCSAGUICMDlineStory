@@ -16,7 +16,7 @@ public class MyStory extends Story {
 
     protected boolean ValidateOption(String option) {
         Scene attempt = getScene(option);
-        if (attempt != null) {
+        if (attempt != null && curScene.getOptions().containsKey(option)) {
             curScene = attempt;
             UpdateInterfaces();
             return true;
@@ -31,12 +31,12 @@ public class MyStory extends Story {
     protected boolean isEndScene(Scene s) {
         String id = s.getSceneId(); // too much to type out
         boolean ended;
-        if (s.getSceneId() == "9") {
-            boolean dead = 0.2 >= Math.random();
+        if (s.getSceneId().equals("9")) {
+            boolean dead = 0.2 <= Math.random();
             
             if (dead) s.setScene(s.getScene()
                 .replace("{0}", "explosive bomb")
-                .replace("{1}", "You died as of result."));
+                .replace("{1}", " You died as of result."));
             else s.setScene(s.getScene()
                 .replace("{0}", "a few gold coins"
                 .replace("{1}", "")));
@@ -119,8 +119,7 @@ public class MyStory extends Story {
                 "11",
                 "You arrived at the top of the mountain. Wow, what an amazing scenery that you see in front of you. It's just the beautiful sky, lakes, and waterfall.",
                 "14|Jump down to the lake",
-                "15|Walk down to the other side",
-                "16|Explore the hill"
+                "15|Walk down to the other side"
                 );
             case "12" -> new Scene(
                 "12",
