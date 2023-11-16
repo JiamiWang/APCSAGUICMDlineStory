@@ -2,6 +2,8 @@ package net.spicycombo.jiamingwang.storyproj;
 
 public class MyStory extends Story { 
     private boolean ended;
+
+    public static final String START_SCENE = "1"; 
     
     protected String name() {
         return "MyStory";
@@ -10,7 +12,7 @@ public class MyStory extends Story {
     public void start() {
         if (started) return;
 
-        curScene = getScene("1"); // anything, .-.
+        curScene = getScene(START_SCENE); // .-.
         started = true;
     }
 
@@ -26,6 +28,13 @@ public class MyStory extends Story {
 
     protected boolean getIsEnded() {
         return ended;
+    }
+
+    protected void reset() {
+        Main.instanceTerminal.print(">>> &cProgress is being reset, hold on tight...");
+        curScene = getScene(START_SCENE);
+        UpdateInterfaces();
+        if (Main.instanceGUI != null) Main.instanceGUI.SetButtonEnabled(true);
     }
     
     protected boolean isEndScene(Scene s) {

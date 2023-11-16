@@ -13,6 +13,8 @@ public class Terminal {
             print("&yYou reached the end of the game! &wScenario " + scene.getSceneId());
             print("&w" + scene.getScene());
             print("&gThank you for playing! :D");
+
+            print("&yTo reset the game, type &g/reset&y!");
         }
         else {
             String sceneMsg = "&bNow at Scene &y" + scene.getSceneId();
@@ -38,9 +40,7 @@ public class Terminal {
         enabled = newStat;
     }
 
-    public Terminal() {
-        
-    }
+    public Terminal() { }
 
     public void IntroductCmdLine() {
         if (!enabled) {
@@ -90,6 +90,7 @@ public class Terminal {
             cmdPrint("&b/music&y: Toggle on or off the background music.");
             cmdPrint("&b/status&y: Displays current program status.");
             cmdPrint("&b/about&y: About this program.");
+            cmdPrint("&b/reset&y: Reset the game.");
             //cmdPrint("&b/manipulate [type] [text]&y: Change text in a component.");
             cmdPrint("&b/exit&y: Quits the program.");
         }
@@ -119,7 +120,12 @@ public class Terminal {
             else {
                 cmdPrint("&cNot a valid component type!");
             }
-        }*/   
+        }*/
+        else if (Inputs.caselessEq(args[0], "/reset")) {
+            cmdPrint("ok, you asked for reset :/");
+            
+            Main.story.reset();
+        }
         else if (Inputs.caselessEq(args[0], "/status")) {
             cmdPrint("You are currently at scene with ID " + Main.story.curScene.getSceneId());
             if (Main.bMusic != null) cmdPrint("Currently, the music player is " + (Main.bMusic.isPlaying() ? "&gon" : "&roff") + ".");
@@ -146,6 +152,8 @@ public class Terminal {
 
     // TODO: Add coloring strings, and truncate tokens when coloring is disabled
     public void print(String str) {
+        if (!enabled) return;
+        
         if (useColors) System.out.println(colorize(str + "^r"));
         else System.out.println(Misc.sanitize(str));
     }
@@ -155,11 +163,6 @@ public class Terminal {
     public static String paddedLine(char c, int length) {
         return String.format("%"+length+"s", "").replace(' ', c);
     }
-
-    // TODO: Function should truncate Color Tokens when color displaying is not enabled.
-    // public static String truncateColorTokens(String text) {
-    //     String curString = text;
-    // }
     
     // TODO: Replace color tokens with ANSI codes
     public static String colorize(String text) {

@@ -60,4 +60,6 @@ public abstract class Story {
     protected abstract boolean isEndScene(Scene s);
     
     protected abstract boolean getIsEnded();
+
+    protected abstract void reset();
 }

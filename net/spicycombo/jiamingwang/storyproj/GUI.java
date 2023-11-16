@@ -32,12 +32,16 @@ public class GUI extends JFrame implements ActionListener {
     private JButton musicButton;
     // private JButton button1, button2;
     private JComboBox optionList;
-    private JButton confirmButton;
+    private JButton confirmButton; private JButton resetBtn;
     private JTextArea content;
 
     private JLabel sceneNum;
 
     // But, the important fields here
+
+    protected void SetButtonEnabled(boolean val) {
+        confirmButton.setEnabled(val);
+    }
     
     public void changeJTextAreaContent(String text) {
         content.setText(text);
@@ -168,12 +172,18 @@ public class GUI extends JFrame implements ActionListener {
         mainPanel.add(title);
 
         // Musix!!
-        musicButton = new JButton("Toggle Music");
+        musicButton = new JButton("Music");
         musicButton.setIcon(musicOffIcon);
         musicButton.addActionListener(this);
 
         mainPanel.add(musicButton);
 
+        // Reset Button
+        resetBtn = new JButton("Reset");
+        resetBtn.addActionListener(this);
+
+        mainPanel.add(resetBtn);
+        
         // Label for scene ID
 
         sceneNum = new JLabel("Loading...");
@@ -270,6 +280,8 @@ public class GUI extends JFrame implements ActionListener {
                Main.bMusic.toggle();
                fixMusicButton();
             }
+        } else if (e.getSource() == resetBtn) {
+            Main.story.reset();
         }
     }     
 }
