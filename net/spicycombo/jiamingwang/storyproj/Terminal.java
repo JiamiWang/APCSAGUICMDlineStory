@@ -63,8 +63,13 @@ public class Terminal {
         if (!enabled) while (true) {
             String input = Inputs.s.nextLine();
             
-            if (Inputs.caselessEq(input, "amogus")) {
-                System.out.println("AMONG US!");
+            if (Inputs.caselessEq(input, "amogus")) System.out.println("AMONG US!");
+            else if (Inputs.caselessEq(input, "eat it")) System.out.print("OH REALLY?");
+            else if (Inputs.caselessEq(input, "Set<jiaoMing> cool")) System.out.println("Yes... { new JiaoMing(\"the real one\"); }");
+            else if (Inputs.caselessEq(input, "call out my name") ||
+                    Inputs.caselessEq(input, "break my heart")) {
+                System.out.println("linux user? type this in your terminal: yes break my heart");
+                break;    
             }
         }
         
@@ -80,6 +85,11 @@ public class Terminal {
                 else if (!validatedOption) print("&r!! Not a valid option in the story line.");
             }
         }
+
+        System.out.println("Uh oh! The loop was broken out of. \"Monday left me broken.\"");
+        System.out.println("You might only have the GUI open, if that is the case, don't worry, you can still continue the game.");
+        System.out.println("If you want to exit now, then...");
+        Misc.PressAnyKey(0);
     }
 
     // TODO: Create command classes, and implement object inheritance
